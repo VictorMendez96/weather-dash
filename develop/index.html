@@ -9,30 +9,36 @@
 </head>
 <body>
     <nav class="navbar">
+        <div>
         Weather Dashboard
+        </div>
     </nav>
+    <div class="row">
+        <div class="search-div column">
+            <form class="search-bar">
+                <div>
+                    <input id="search-input" class="form-input w-100" type="text" placeholder="Denver">
+                </div>
+                <div>
+                    <button>Search!</button>
+                </div>
+            </form>
+            <div class="previous-searches">
+                <ul class="saved-searches">
+                    Test
+                </ul>
+            </div>
+        </div>
 
-    <div class="search-div">
-        <form class="search-bar">
-            <input id="search-input" class="form-input w-100" type="text" placeholder="Denver">
-            <button>Search!</button>
-        </form>
-        <div class="previous-searches">
-            <ul class="saved-searches">
-
-            </ul>
+        <div class="results-div column">
+            <div class="current-weather">
+                Test
+            </div>
+            <div class="five-day">
+                Test
+            </div>
         </div>
     </div>
-
-    <div class="results-div">
-        <div class="current-weather">
-
-        </div>
-        <div class="five-day">
-
-        </div>
-    </div>
-
     <script src="./js/script.js"></script>
 </body>
 </html>
