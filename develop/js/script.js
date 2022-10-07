@@ -5,7 +5,7 @@ var searchFormEl = document.querySelector('.search-bar');
 function handleFormSubmit(event) {
     event.preventDefault();
 
-    var searchInput = document.querySelector('#search-input')
+    var searchInput = document.querySelector('#search-input').value;
 
     // Error catching if input field is blank
     if (!searchInput){
@@ -13,12 +13,18 @@ function handleFormSubmit(event) {
         return;
     }
 
-
+    searchApi(searchInput)
 }
 
 // Event Listener for search bar
 searchFormEl.addEventListener('submit', handleFormSubmit)
 
 // Function to search 
+function searchApi(query) {
+    console.log(query);
+}
 
-// Function to print results from 
+// Function to print results from search
+function printResults(resultObj) {
+    
+}
