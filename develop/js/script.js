@@ -4,6 +4,12 @@ var searchFormEl = document.querySelector('.search-bar');
 // Define variables
 var searchedCities = []
 
+// Function that loads screen
+function init() {
+
+    savedLocations()
+}
+
 // Function for form submit
 function handleFormSubmit(event) {
     event.preventDefault();
@@ -56,3 +62,18 @@ function geoCodeApi(searchInput) {
     searchedCities = searchedCities.concat(JSON.parse(localStorage.getItem("searchedCities")|| '[]'));
     localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
 }
+
+// Function to create buttons of saved locations in local storage
+function savedLocations() {
+
+    // Retrieve saved locations in local storage
+    searchedCities = JSON.parse(localStorage.getItem("searchedCities") || '[]');
+
+    // Create buttons from saved locations
+    searchedCities.forEach(element => {
+        
+    });
+}
+
+// Call init function at page load
+init()
