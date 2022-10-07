@@ -18,7 +18,7 @@ function handleFormSubmit(event) {
 
 
 
-    geoCode(searchInput);
+    geoCodeApi(searchInput);
 }
 
 // Event Listener for search bar
@@ -30,7 +30,7 @@ function searchApi(query) {
 
     var locQueryUrl = 'api.openweathermap.org/data/2.5/forecast';
 
-    locQueryUrl = locQueryUrl + '?lat=' + lat + '&lon=' + lon + '&appid=' + key
+    locQueryUrl = locQueryUrl + '?lat=' + lat + '&lon=' + lon + '&appid=' + key;
 }
 
 // Function to print results from search
@@ -40,8 +40,10 @@ function printResults(resultObj) {
 
 // Function to geocode from city input
 function geoCodeApi(searchInput) {
+    var locQueryUrl = 'http://api.openweathermap.org/geo/1.0/direct';
 
-    
+    locQueryUrl = locQueryUrl + '?q=' + searchInput + '&appid=' + key;
+
     // Variable to store city info once retrieved from API call
     var city = {
         name : searchInput,
