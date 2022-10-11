@@ -31,37 +31,126 @@ function handleFormSubmit(event) {
 searchFormEl.addEventListener('submit', handleFormSubmit)
 
 // Function to search 
-function searchApi(query) {
+function searchCurrentApi(query) {
     console.log(query);
 
-    var locQueryUrl = 'api.openweathermap.org/data/2.5/forecast';
+    var locQueryUrl = 'http://api.openweathermap.org/data/2.5/weather';
 
-    locQueryUrl = locQueryUrl + '?lat=' + lat + '&lon=' + lon + '&appid=' + key;
-}
+    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
+
+    console.log(locQueryUrl)
+
+    fetch(locQueryUrl)
+    .then(function (response) {
+        if (!response.ok) {
+            throw response.json();
+            }
+
+     return response.json();
+   })
+    .then(function (locRes) {
+      // write query to page so user knows what they are viewing
+    //   resultTextEl.textContent = locRes.search.query;
+
+        if (!locRes) {
+            console.log('No results found!');
+        } else {
+            printResults(locRes);
+        }
+      
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+    }
+
+
+function searchFourDayApi(query) {
+    console.log(query);
+
+    var locQueryUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+
+    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
+
+    console.log(locQueryUrl)
+
+    fetch(locQueryUrl)
+    .then(function (response) {
+        if (!response.ok) {
+            throw response.json();
+            }
+
+     return response.json();
+   })
+    .then(function (locRes) {
+      // write query to page so user knows what they are viewing
+    //   resultTextEl.textContent = locRes.search.query;
+
+        if (!locRes) {
+            console.log('No results found!');
+        } else {
+            printResults(locRes);
+        }
+      
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+    }
 
 // Function to print results from search
 function printResults(resultObj) {
-    
+    console.log(resultObj)
 }
 
 // Function to geocode from city input
 function geoCodeApi(searchInput) {
     var locQueryUrl = 'http://api.openweathermap.org/geo/1.0/direct';
 
-    locQueryUrl = locQueryUrl + '?q=' + searchInput + '&appid=' + key;
+    locQueryUrl = locQueryUrl + '?q=' + searchInput + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
 
-    // Variable to store city info once retrieved from API call
-    var city = {
-        name : searchInput,
-        lat : lat,
-        lon : lon,
-    }
+    fetch(locQueryUrl)
+    .then(function (response) {
+        console.log(response)
+      if (!response.ok) {
+        throw response.json();
+      }
 
-    // Save city to local storage for future use
-    searchedCities.push(city);
-    searchedCities = searchedCities.concat(JSON.parse(localStorage.getItem("searchedCities")|| '[]'));
-    localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
-}
+      return response.json();
+    })
+    .then(function (locRes) {
+      // write query to page so user knows what they are viewing
+    //   resultTextEl.textContent = locRes.search.query;
+
+    //   console.log(locRes);
+
+      if (!locRes.length) {
+        console.log('No results found!');
+        // resultContentEl.innerHTML = '<h3>No results found, search again!</h3>';
+      } else {
+        // resultContentEl.textContent = '';   
+        console.log(locRes) 
+        for (var i = 0; i < locRes.length; i++) {
+            var city = {
+            name : locRes[i].name,
+            lat : locRes[i].lat,
+            lon : locRes[i].lon,
+            }    
+            // Save city to local storage for future use
+            searchedCities.push(city);
+            searchedCities = searchedCities.concat(JSON.parse(localStorage.getItem("searchedCities")|| '[]'));
+            localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
+
+            console.log(city)
+            searchCurrentApi(city);
+            searchFourDayApi(city);
+            }
+      }
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+ }
 
 // Function to create buttons of saved locations in local storage
 function savedLocations() {
