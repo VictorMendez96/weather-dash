@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Weather Dashboard</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
@@ -14,26 +14,26 @@
         </div>
     </nav>
     <div class="row">
-        <div class="search-div column">
+        <div class="search-div">
             <form class="search-bar">
-                <div>
+                <div class="search-form">
                     <h5>Search for a city : </h5>
-                    <input id="search-input" class="form-input w-100" type="text" placeholder="Denver">
+                    <input id="search-input" class="form-input" type="text" placeholder="Denver">
                 </div>
                 <div>
-                    <button>Search!</button>
+                    <button class="btn">Search!</button>
                 </div>
             </form>
             <div class="previous-searches">
-                <ul class="saved-searches">
-                    Test
-                </ul>
+                
             </div>
         </div>
 
         <div class="results-div column">
+            <h2>Showing forecast for <span class="city"></span> on <span class="date"></span></h2>
             <div class="current-weather">
-                Test
+                
+
             </div>
             <div class="five-day">
                 Test

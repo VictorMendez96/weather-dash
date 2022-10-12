@@ -21,31 +21,50 @@ body div{
     display: flex;
     flex-direction: column;
     background-color: lightblue;
-    width: 10%;
+    width: 15%;
     align-content: center;
 }
 
-.search-div div {
+.search-form {
     display: flex;
     flex-direction: column;
     background-color: lightblue;
-    align-content: center;
+    align-items: center;
 }
 
 .results-div {
     display: flex;
     flex-direction: column;
     background-color: lightblue;
-    width: 80%;
+    width: 75%;
     align-content: center;
 }
 
 .search-bar {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    ;
 }
 
 .row {
     display: flex;
     justify-content: space-around;
+}
+
+.previous-searches {
+    flex-direction: column;
+}
+
+.btn {
+    text-align: center;
+    justify-content: center;
+    border-radius: 8PX;
+    background-color: dodgerblue;
+    margin: 8px;
+    color: white;
+}
+
+.btn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }

@@ -1,5 +1,7 @@
 // Bring in the search form
 var searchFormEl = document.querySelector('.search-bar');
+var savedSearchEl = document.querySelector('.previous-searches');
+var savedSearchBtn = document.getElementsByClassName('btn')
 
 // Define variables
 var searchedCities = []
@@ -30,6 +32,7 @@ function handleFormSubmit(event) {
 // Event Listener for search bar
 searchFormEl.addEventListener('submit', handleFormSubmit)
 
+
 // Function to search 
 function searchCurrentApi(query) {
     console.log(query);
@@ -55,7 +58,7 @@ function searchCurrentApi(query) {
         if (!locRes) {
             console.log('No results found!');
         } else {
-            printResults(locRes);
+            printCurrentResults(locRes);
         }
       
     })
@@ -89,7 +92,7 @@ function searchFourDayApi(query) {
         if (!locRes) {
             console.log('No results found!');
         } else {
-            printResults(locRes);
+            printFourDayResults(locRes);
         }
       
     })
@@ -99,7 +102,11 @@ function searchFourDayApi(query) {
     }
 
 // Function to print results from search
-function printResults(resultObj) {
+function printCurrentResults(resultObj) {
+    console.log(resultObj)
+}
+
+function printFourDayResults(resultObj) {
     console.log(resultObj)
 }
 
@@ -108,6 +115,7 @@ function geoCodeApi(searchInput) {
     var locQueryUrl = 'http://api.openweathermap.org/geo/1.0/direct';
 
     locQueryUrl = locQueryUrl + '?q=' + searchInput + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
+    console.log(searchInput)
 
     fetch(locQueryUrl)
     .then(function (response) {
@@ -138,7 +146,6 @@ function geoCodeApi(searchInput) {
             }    
             // Save city to local storage for future use
             searchedCities.push(city);
-            searchedCities = searchedCities.concat(JSON.parse(localStorage.getItem("searchedCities")|| '[]'));
             localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
 
             console.log(city)
@@ -158,11 +165,21 @@ function savedLocations() {
     // Retrieve saved locations in local storage
     searchedCities = JSON.parse(localStorage.getItem("searchedCities") || '[]');
 
+    
     // Create buttons from saved locations
     searchedCities.forEach(element => {
-        
+        var cityButton = document.createElement('div')
+        cityButton.textContent = element.name
+        cityButton.classList.add('btn', 'searched-city')
+        cityButton.addEventListener("click", function() {
+            geoCodeApi(this.textContent);
+        });
+        savedSearchEl.appendChild(cityButton)
     });
 }
 
+// document.getElementsByClassName('btn').addEventListener("click", function() {
+//     geoCodeApi(this.textContent)
+// })
 // Call init function at page load
 init()
