@@ -35,13 +35,10 @@ searchFormEl.addEventListener('submit', handleFormSubmit)
 
 // Function to search 
 function searchCurrentApi(query) {
-    console.log(query);
 
     var locQueryUrl = 'http://api.openweathermap.org/data/2.5/weather';
 
     locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
-
-    console.log(locQueryUrl)
 
     fetch(locQueryUrl)
     .then(function (response) {
@@ -69,13 +66,10 @@ function searchCurrentApi(query) {
 
 
 function searchFourDayApi(query) {
-    console.log(query);
 
     var locQueryUrl = 'http://api.openweathermap.org/data/2.5/forecast';
 
     locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
-
-    console.log(locQueryUrl)
 
     fetch(locQueryUrl)
     .then(function (response) {
@@ -104,6 +98,7 @@ function searchFourDayApi(query) {
 // Function to print results from search
 function printCurrentResults(resultObj) {
     console.log(resultObj)
+
 }
 
 function printFourDayResults(resultObj) {
@@ -115,11 +110,9 @@ function geoCodeApi(searchInput) {
     var locQueryUrl = 'http://api.openweathermap.org/geo/1.0/direct';
 
     locQueryUrl = locQueryUrl + '?q=' + searchInput + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
-    console.log(searchInput)
 
     fetch(locQueryUrl)
     .then(function (response) {
-        console.log(response)
       if (!response.ok) {
         throw response.json();
       }
@@ -137,7 +130,6 @@ function geoCodeApi(searchInput) {
         // resultContentEl.innerHTML = '<h3>No results found, search again!</h3>';
       } else {
         // resultContentEl.textContent = '';   
-        console.log(locRes) 
         for (var i = 0; i < locRes.length; i++) {
             var city = {
             name : locRes[i].name,
@@ -148,7 +140,6 @@ function geoCodeApi(searchInput) {
             searchedCities.push(city);
             localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
 
-            console.log(city)
             searchCurrentApi(city);
             searchFourDayApi(city);
             }
@@ -164,10 +155,11 @@ function savedLocations() {
 
     // Retrieve saved locations in local storage
     searchedCities = JSON.parse(localStorage.getItem("searchedCities") || '[]');
+    var uniqueCities = [... new Map(searchedCities.map((m) => [m.name, m])).values()];
 
     
     // Create buttons from saved locations
-    searchedCities.forEach(element => {
+    uniqueCities.forEach(element => {
         var cityButton = document.createElement('div')
         cityButton.textContent = element.name
         cityButton.classList.add('btn', 'searched-city')
@@ -178,8 +170,5 @@ function savedLocations() {
     });
 }
 
-// document.getElementsByClassName('btn').addEventListener("click", function() {
-//     geoCodeApi(this.textContent)
-// })
 // Call init function at page load
 init()
