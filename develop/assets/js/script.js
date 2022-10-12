@@ -1,7 +1,10 @@
 // Bring in the search form
 var searchFormEl = document.querySelector('.search-bar');
 var savedSearchEl = document.querySelector('.previous-searches');
-var savedSearchBtn = document.getElementsByClassName('btn')
+var savedSearchBtn = document.getElementsByClassName('btn');
+var cityDateOutputEl = document.querySelector('.city-date');
+var currentWeatherEl = document.querySelector('.current-weather')
+var fiveDayWeatherEl = document.querySelector('.five-day')
 
 // Define variables
 var searchedCities = []
@@ -38,7 +41,7 @@ function searchCurrentApi(query) {
 
     var locQueryUrl = 'http://api.openweathermap.org/data/2.5/weather';
 
-    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
+    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02&units=imperial';
 
     fetch(locQueryUrl)
     .then(function (response) {
@@ -50,13 +53,16 @@ function searchCurrentApi(query) {
    })
     .then(function (locRes) {
       // write query to page so user knows what they are viewing
-    //   resultTextEl.textContent = locRes.search.query;
+      var city = locRes.name
+      var date = new Date(locRes.dt * 1000);
+      cityDateOutputEl.textContent = 'Showing forecast for ' +  city + ' on ' + date.toLocaleDateString("en-US") + '!';
 
-        if (!locRes) {
-            console.log('No results found!');
-        } else {
-            printCurrentResults(locRes);
-        }
+      if (!locRes) {
+          console.log('No results found!');
+      } else {
+          printCurrentResults(locRes);
+      }
+      
       
     })
     .catch(function (error) {
@@ -65,11 +71,11 @@ function searchCurrentApi(query) {
     }
 
 
-function searchFourDayApi(query) {
+function searchFiveDayApi(query) {
 
     var locQueryUrl = 'http://api.openweathermap.org/data/2.5/forecast';
 
-    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
+    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02&units=imperial';
 
     fetch(locQueryUrl)
     .then(function (response) {
@@ -80,14 +86,12 @@ function searchFourDayApi(query) {
      return response.json();
    })
     .then(function (locRes) {
-      // write query to page so user knows what they are viewing
-    //   resultTextEl.textContent = locRes.search.query;
 
-        if (!locRes) {
-            console.log('No results found!');
-        } else {
-            printFourDayResults(locRes);
-        }
+      if (!locRes) {
+          console.log('No results found!');
+      } else {
+        printFiveDayResults(locRes);
+      }
       
     })
     .catch(function (error) {
@@ -97,12 +101,75 @@ function searchFourDayApi(query) {
 
 // Function to print results from search
 function printCurrentResults(resultObj) {
-    console.log(resultObj)
+  console.log(resultObj)
+  var currentWeather = document.createElement('div');
+  currentWeather.classList.add('current-card');
 
+  var currentIconDes = document.createElement('div');
+  var currentIcon = document.createElement('img')
+  var currentDes = document.createElement('h3')
+  currentDes.textContent = resultObj.weather[0].description
+  var iconUrl = 'http://openweathermap.org/img/wn/' + resultObj.weather[0].icon + '@2x.png'
+  currentIcon.setAttribute('src', iconUrl);+
+  currentIconDes.classList.add('icon-des')
+  currentIconDes.append(currentIcon, currentDes)
+
+  var currentTemp = document.createElement('div')
+  currentTemp.textContent = 'Temp: ' + resultObj.main.temp;
+
+  var currentWind = document.createElement('div')
+  currentWind.textContent = 'Wind: ' + resultObj.wind.speed;
+
+  var currentHumidity = document.createElement('div')
+  currentHumidity.textContent = 'Humidity: ' + resultObj.main.humidity;
+
+  currentWeather.append(currentIconDes, currentTemp, currentWind, currentHumidity)
+
+  currentWeatherEl.append(currentWeather)
 }
 
-function printFourDayResults(resultObj) {
-    console.log(resultObj)
+function printFiveDayResults(resultObj) {
+  console.log(resultObj)
+
+  var fiveDay = document.createElement('div')
+  fiveDay.classList.add('five-day-container')
+
+  for (let i = 0; i < 40; i+= 8) {
+
+    var dayCard = document.createElement('div');
+    dayCard.classList.add('day-card');
+
+    var date = new Date(resultObj.list[i].dt * 1000)
+    var day = document.createElement('h3')
+    day.textContent = date.toLocaleDateString("en-US")
+  
+    var dayIconDes = document.createElement('div');
+    var dayIcon = document.createElement('img')
+    var dayDes = document.createElement('h4')
+    dayDes.textContent = resultObj.list[i].weather[0].description
+    var iconUrl = 'http://openweathermap.org/img/wn/' + resultObj.list[i].weather[0].icon + '@2x.png'
+    dayIcon.setAttribute('src', iconUrl);+
+    dayIconDes.classList.add('icon-des')
+    dayIconDes.append(dayIcon, dayDes)
+  
+    var dayTemp = document.createElement('div')
+    dayTemp.classList.add('temps')
+    dayTemp.innerHTML = 'Temp: ' + resultObj.list[i].main.temp + '<br/>' +'Min Temp: ' + resultObj.list[i].main.temp + '<br/>' + 'Max Temp: ' + resultObj.list[i].main.temp;
+  
+    var dayWind = document.createElement('div')
+    dayWind.textContent = 'Wind: ' + resultObj.list[i].wind.speed;
+  
+    var dayHumidity = document.createElement('div')
+    dayHumidity.textContent = 'Humidity: ' + resultObj.list[i].main.humidity;
+  
+    dayCard.append(day, dayIconDes, dayTemp, dayWind, dayHumidity);
+    
+    fiveDay.append(dayCard)
+  }
+
+
+
+  fiveDayWeatherEl.append(fiveDay)
 }
 
 // Function to geocode from city input
@@ -141,7 +208,7 @@ function geoCodeApi(searchInput) {
             localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
 
             searchCurrentApi(city);
-            searchFourDayApi(city);
+            searchFiveDayApi(city);
             }
       }
     })
