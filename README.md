@@ -27,5 +27,5 @@ THEN I am again presented with current and future conditions for that city
 
 [Github](https://github.com/VictorMendez96/weather-dash)
 
-[Deployment](https://victormendez96.github.io/weather-dash/)
+[Deployment](https://victormendez96.github.io/weather-dash/develop)
 
