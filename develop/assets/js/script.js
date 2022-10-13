@@ -8,6 +8,7 @@ var fiveDayWeatherEl = document.querySelector('.five-day')
 
 // Define variables
 var searchedCities = []
+var key = "bc0ce6a2e099a293c2aab5283a3e0c02"
 
 // Function that loads screen
 function init() {
@@ -41,7 +42,7 @@ function searchCurrentApi(query) {
 
     var locQueryUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
-    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02&units=imperial';
+    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=' + key + '&units=imperial';
 
     fetch(locQueryUrl)
     .then(function (response) {
@@ -75,7 +76,7 @@ function searchFiveDayApi(query) {
 
     var locQueryUrl = 'https://api.openweathermap.org/data/2.5/forecast';
 
-    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02&units=imperial';
+    locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=' + key + '&units=imperial';
 
     fetch(locQueryUrl)
     .then(function (response) {
@@ -177,7 +178,7 @@ function printFiveDayResults(resultObj) {
 function geoCodeApi(searchInput) {
     var locQueryUrl = 'https://api.openweathermap.org/geo/1.0/direct';
 
-    locQueryUrl = locQueryUrl + '?q=' + searchInput + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
+    locQueryUrl = locQueryUrl + '?q=' + searchInput + '&appid=' + key;
 
     fetch(locQueryUrl)
     .then(function (response) {
