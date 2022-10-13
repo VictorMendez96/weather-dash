@@ -39,7 +39,7 @@ searchFormEl.addEventListener('submit', handleFormSubmit)
 // Function to search 
 function searchCurrentApi(query) {
 
-    var locQueryUrl = 'http://api.openweathermap.org/data/2.5/weather';
+    var locQueryUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
     locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02&units=imperial';
 
@@ -73,7 +73,7 @@ function searchCurrentApi(query) {
 
 function searchFiveDayApi(query) {
 
-    var locQueryUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+    var locQueryUrl = 'https://api.openweathermap.org/data/2.5/forecast';
 
     locQueryUrl = locQueryUrl + '?lat=' + query.lat + '&lon=' + query.lon + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02&units=imperial';
 
@@ -175,7 +175,7 @@ function printFiveDayResults(resultObj) {
 
 // Function to geocode from city input
 function geoCodeApi(searchInput) {
-    var locQueryUrl = 'http://api.openweathermap.org/geo/1.0/direct';
+    var locQueryUrl = 'https://api.openweathermap.org/geo/1.0/direct';
 
     locQueryUrl = locQueryUrl + '?q=' + searchInput + '&appid=bc0ce6a2e099a293c2aab5283a3e0c02';
 
