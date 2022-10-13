@@ -20,7 +20,8 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 
 ## Application Screenshots
-
+![Landing Page](./develop/assets/images/landing-page.png)
+![Active Search](./develop/assets/images/active-search.png)
 
 ## Application Links
 

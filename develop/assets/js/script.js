@@ -102,6 +102,7 @@ function searchFiveDayApi(query) {
 // Function to print results from search
 function printCurrentResults(resultObj) {
   console.log(resultObj)
+  currentWeatherEl.textContent = ""
   var currentWeather = document.createElement('div');
   currentWeather.classList.add('current-card');
 
@@ -115,13 +116,13 @@ function printCurrentResults(resultObj) {
   currentIconDes.append(currentIcon, currentDes)
 
   var currentTemp = document.createElement('div')
-  currentTemp.textContent = 'Temp: ' + resultObj.main.temp;
+  currentTemp.innerHTML = 'Temp: ' + resultObj.main.temp + '<span>&#8457;</span>';
 
   var currentWind = document.createElement('div')
-  currentWind.textContent = 'Wind: ' + resultObj.wind.speed;
+  currentWind.textContent = 'Wind: ' + resultObj.wind.speed + 'mph';
 
   var currentHumidity = document.createElement('div')
-  currentHumidity.textContent = 'Humidity: ' + resultObj.main.humidity;
+  currentHumidity.textContent = 'Humidity: ' + resultObj.main.humidity + '%';
 
   currentWeather.append(currentIconDes, currentTemp, currentWind, currentHumidity)
 
@@ -130,7 +131,7 @@ function printCurrentResults(resultObj) {
 
 function printFiveDayResults(resultObj) {
   console.log(resultObj)
-
+  fiveDayWeatherEl.textContent = ""
   var fiveDay = document.createElement('div')
   fiveDay.classList.add('five-day-container')
 
@@ -154,13 +155,13 @@ function printFiveDayResults(resultObj) {
   
     var dayTemp = document.createElement('div')
     dayTemp.classList.add('temps')
-    dayTemp.innerHTML = 'Temp: ' + resultObj.list[i].main.temp + '<br/>' +'Min Temp: ' + resultObj.list[i].main.temp + '<br/>' + 'Max Temp: ' + resultObj.list[i].main.temp;
+    dayTemp.innerHTML = 'Temp: ' + resultObj.list[i].main.temp + '<span>&#8457;</span>' + '<br/>' +'Min Temp: ' + resultObj.list[i].main.temp + '<span>&#8457;</span>' + '<br/>' + 'Max Temp: ' + resultObj.list[i].main.temp + '<span>&#8457;</span>' ;
   
     var dayWind = document.createElement('div')
-    dayWind.textContent = 'Wind: ' + resultObj.list[i].wind.speed;
+    dayWind.textContent = 'Wind: ' + resultObj.list[i].wind.speed + 'mph';
   
     var dayHumidity = document.createElement('div')
-    dayHumidity.textContent = 'Humidity: ' + resultObj.list[i].main.humidity;
+    dayHumidity.textContent = 'Humidity: ' + resultObj.list[i].main.humidity + '%';
   
     dayCard.append(day, dayIconDes, dayTemp, dayWind, dayHumidity);
     
@@ -187,16 +188,10 @@ function geoCodeApi(searchInput) {
       return response.json();
     })
     .then(function (locRes) {
-      // write query to page so user knows what they are viewing
-    //   resultTextEl.textContent = locRes.search.query;
-
-    //   console.log(locRes);
 
       if (!locRes.length) {
         console.log('No results found!');
-        // resultContentEl.innerHTML = '<h3>No results found, search again!</h3>';
-      } else {
-        // resultContentEl.textContent = '';   
+      } else {   
         for (var i = 0; i < locRes.length; i++) {
             var city = {
             name : locRes[i].name,
@@ -223,6 +218,7 @@ function savedLocations() {
     // Retrieve saved locations in local storage
     searchedCities = JSON.parse(localStorage.getItem("searchedCities") || '[]');
     var uniqueCities = [... new Map(searchedCities.map((m) => [m.name, m])).values()];
+    localStorage.setItem("searchedCities", JSON.stringify(uniqueCities))
 
     
     // Create buttons from saved locations
